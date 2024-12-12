@@ -50,7 +50,7 @@ class UserDAL:
 
 
 
-LETTER_MATCH_PATTERN = re.compile(r"^[а-яА-Яа-zA-Z\-] + $")
+LETTER_MATCH_PATTERN = re.compile(r"^[а-яА-Яa-zA-Z\-]+$")
 
 
 class TunedModel(BaseModel):
@@ -58,6 +58,14 @@ class TunedModel(BaseModel):
 
 
     orm_mode = True
+
+
+class ShowUser(TunedModel):
+  user_id: uuid.UUID
+  name: str 
+  surname: str
+  email: EmailStr
+  is_active: bool
 
 
 class UserCreate(BaseModel):
@@ -78,12 +86,6 @@ class UserCreate(BaseModel):
     return value
 
 
-class ShowUser(TunedModel):
-  user_id: uuid.UUID
-  name: str
-  surname: str
-  email: EmailStr
-  is_active: bool
 
 
 
@@ -126,4 +128,4 @@ main_api_router.include_router(user_router, prefix='/user', tags=['user'])
 app.include_router(main_api_router)
 
 if __name__ == '__main__':
-  uvicorn.run(app, host='0.0.0.0', port=8000)
+  uvicorn.run(app, host='localhost', port=8000)
